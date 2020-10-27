@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Beach Ecology Thick Mapping</title>
+<link rel="icon" type="image/png" href="image/wave.png" sizes="16x16"/>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
+<style>
+	body { margin: 0; padding: 0; }
+	#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+	h2,
+h3 {
+  margin: 10px;
+  font-size: 1.2em;
+}
+
+h3 {
+  font-size: 1em;
+}
+
+p {
+  font-size: 0.85em;
+  margin: 10px;
+  text-align: left;
+}
+
+/**
+* Create a position for the map
+* on the page */
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+
+/**
+* Set rules for how the map overlays
+* (information box and legend) will be displayed
+* on the page. */
+.map-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: rgba(255, 255, 255, 0.8);
+  margin-right: 15px;
+  font-family: Arial, sans-serif;
+  overflow: auto;
+  border-radius: 3px;
+}
+
+#features {
+  top: 0;
+  height: 170px;
+  margin-top: 20px;
+  width: 200px;
+}
+
+/*#legend {
+  padding: 10px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 1);
+  line-height: 18px;
+  height: 120px;
+  margin-bottom: 40px;
+  width: 150px;
+}
+
+.legend-key {
+  display: inline-block;
+  border-radius: 20%;
+  width: 10px;
+  height: 10px;
+  margin-right: 5px;
+}*/
+
+#menu {
+		background: #fff;
+		position: absolute;
+		z-index: 1;
+	bottom:50px;
+		left: 0px;
+		border-radius: 3px;
+		width: 120px;
+		border: 1px solid rgba(0, 0, 0, 0.4);
+		font-family: 'Open Sans', sans-serif;
+}
+
+#menu a {
+		font-size: 13px;
+		color: #404040;
+		display: block;
+		margin: 0;
+		padding: 0;
+		padding: 10px;
+		text-decoration: none;
+		border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+		text-align: center;
+}
+
+#menu a:last-child {
+		border: none;
+}
+
+#menu a:hover {
+		background-color: #F15D5E;
+		color: #404040;
+}
+
+#menu a.active {
+		background-color: #990000;
+		color: #ffffff;
+}
+
+#menu a.active:hover {
+		background: #FFCC00;
+}
+</style>
+</head>
+<body>
+	<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.min.js"></script>
+<link
+rel="stylesheet"
+href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.css"
+type="text/css"
+/>
+<style>
+    .mapboxgl-popup {
+        max-width: "auto";
+        font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    }
+</style>
+<!-- Promise polyfill script required to use Mapbox GL Geocoder in IE 11 -->
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+<div id="map"></div>
+<div class='map-overlay' id='features'><h2>Beach Ecology Thick Map</h2><div id='pd'><p>This map describes the Los Angeles beach ecology as a contested commons with overlapping and shifting activities, histories, and borders.</p></div></div>
+<script>
+	mapboxgl.accessToken = 'pk.eyJ1IjoiY2dpYW1hcmlubyIsImEiOiJjanAyd2hwNWUwYnJ3M3dzMHF4MnJkZ29uIn0.7tLnplw65tLmywvvIPGSKA';
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/cgiamarino/ckgsffeh315gc19qlqjau3rrh',
+				center: [-118.498220, 34.008678],
+				zoom: 12
+    });
+
+    map.on('load', function () {
+        map.addSource('places', {
+            'type': 'geojson',
+            'data': {
+                'type': 'FeatureCollection',
+                'features': [
+                    {
+                        'type': 'Feature',
+                        'properties': {
+                            'description':
+                                '<strong>Highway as Border</strong><p><a href="https://youtu.be/4zwwbSUV424" target="_blank" title="Opens in a new window">PCH in Malibu</a> prioritizes car travel and makes beach access by pedestrians dangerous and difficult.</p>',
+																'image': '<img src= "image/sign.jpeg" style ="width:200px;height:200px"/>',
+                            'icon': 'car'
+                        },
+                        'geometry': {
+                            'type': 'Point',
+                            'coordinates': [-118.682635, 34.034497]
+                        }
+                    },
+                    {
+                        'type': 'Feature',
+                        'properties': {
+                            'description':
+                                '<strong>Pier as Policy</strong><p>Parking at the pier is $15. <a href="https://www.youtube.com/watch?v=xTbhRdv1uNg" target="_blank" title="Opens in a new window">A $$$ restaurant, kayak rental, and tourist shop greet people at the entrance.</a></p>',
+																'image': '<img src= "image/pier.jpeg" style ="width:200px;height:200px"/>',
+                            'icon': 'beach'
+                        },
+                        'geometry': {
+                            'type': 'Point',
+                            'coordinates': [-118.676632, 34.037220]
+                        }
+                    },
+                    {
+                        'type': 'Feature',
+                        'properties': {
+                            'description':
+                                '<strong>Pier as Undercommons</strong><p>The common space between both restaurants provides opportunities <a href="http://www.malibutimes.com/news/article_59f6de7e-c929-11ea-921e-eb330dc39fcd.html" target="_blank" title="Opens in a new window">to fish for free food</a>, as long as one does not remove inedible mussels from the wooden supports below.</p>',
+																'image': '<img src= "image/fish.jpeg" style ="width:200px;height:200px"/>',
+                            'icon': 'aquarium'
+                        },
+                        'geometry': {
+                            'type': 'Point',
+                            'coordinates': [-118.675787, 34.035960]
+                        }
+                    },
+										{
+                        'type': 'Feature',
+                        'properties': {
+                            'description':
+                                '<strong>Beach as Experimental Commons</strong><p>The Doors were founded in the 1960s in Venice and <a href="https://www.youtube.com/watch?v=eSkllKaA8dE" target="_blank" title="Opens in a new window">are a symbol of beach counterculture</a> where the beach becomes a commons for artistic expression and otherworldy experiences.</p>',
+																'image': '<img src= "image/doors.jpg" style ="width:200px;height:200px"/>',
+                            'icon': 'music'
+                        },
+                        'geometry': {
+                            'type': 'Point',
+                            'coordinates': [-118.473769, 33.993269]
+                        }
+                    },
+										{
+											'type':'Feature',
+											'properties':{
+												'description':
+												'<strong>Beach as Undercommons</strong><p>Bruce&#8217;s Beach was an African American beach resort that provided an accessible oceanside refuge in the face of racial segregation. <a href="https://spectrumnews1.com/ca/la-west/human-interest/2020/07/31/reflections-on-race--bruce-s-beach--then-and-now" target="_blank" title="Opens in a new window"> During Jim Crow, racial terrorism and eminent domain seized the parkland</a> and excluded African Americans from the space. With recent uprisings against police brutality and racial injustice, this site is now a battleground for restitution as evidenced by the recent Juneteenth celebration.</p>',
+												'image': '<iframe width="200" height="150" src="https://www.youtube.com/embed/dzVmdjExc6E" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>',
+												'icon': 'park'
+											},
+											'geometry': {
+												'type': 'Point',
+												'coordinates': [-118.415585, 33.894381]
+											}
+										},
+										{'type': 'Feature',
+										'properties':{
+											'description':
+											'<strong>Beach as Anti-Common</strong><p>The unhoused in Venice are subjected to Special Enforcement Zone (SECZ) police sweeps.<a href="https://www.youtube.com/watch?v=Ng7E7gCPlTc&ab_channel=InvisiblePeople" target="_blank" title="Opens in a new window">The city and police banish and dispossess the unhoused around temporary shelters.</a></p>',
+											'image': '<img src="image/secz.jpg"style ="width:200px;height:200px"/>'
+										},
+										'geometry': {
+										'type': 'Polygon',
+										'coordinates': [
+										[
+										[ -118.481193374341004, 33.996044968045602 ],
+										[ -118.479104439314995, 33.997455605619997 ],
+										[ -118.479295363483999, 33.997693037364101 ],
+										[ -118.479665980988997, 33.998074788973199 ],
+										[ -118.479564903487997, 33.998223764745497 ],
+										[ -118.477161505124997, 33.999778683774998 ],
+										[ -118.474550336343, 33.997143684477003 ],
+										[ -118.472770249237996, 33.995155742225101 ],
+										[ -118.471669627558001, 33.993670574683001 ],
+										[ -118.470765545464005, 33.992446106682998 ],
+										[ -118.470439851292994, 33.992362302144301 ],
+										[ -118.470804853380997, 33.991184374048999 ],
+										[ -118.471405702970998, 33.990742064815997 ],
+										[ -118.473651869665005, 33.989280100022903 ],
+										[ -118.474696337178003, 33.988604980403103 ],
+										[ -118.476616809701994, 33.990863118098098 ],
+										[ -118.476521347616995, 33.990914332896303 ],
+										[ -118.480659909750997, 33.995388524752798 ],
+										[ -118.481232682257996, 33.9959984119509 ],
+										[ -118.481232682257996, 33.9959984119509 ],
+										[ -118.481193374341004, 33.996044968045602 ]
+										]
+										]
+									}
+								},
+										{
+											'type':'Feature',
+											'properties':{
+												'description':
+												'<strong>Beach as Historical Erasure</strong><p>The Original Muscle Beach was located at the foot of the Santa Monica Pier. During urban renewal in the 1950s, city officials and businesses shut down the space <a href="https://www.kcet.org/shows/lost-la/how-muscle-beach-started-in-santa-monica-but-ended-up-in-venice" target="_blank" title="Opens in a new window"> to cater to white suburban middle class tastes.</a> The city saw it as an &#8220;immoral place&#8221; attractive to &#8220;hippies&#8221;, &#8220;sexual athletes&#8221;, and &#8220;queers.&#8221; Muscle Beach migrated two miles south following the Venice countercultural movement in the 1960s and 1970s. Today, the original location is an abandoned ghost gym.</p>',
+												'image':'<img src= "image/muscle.jpeg" style ="width:200px;height:200px"/>',
+												'icon': 'fitness-centre'
+											},
+											'geometry': {
+												'type': 'Point',
+												'coordinates': [-118.494793, 34.009216]
+											}
+										},
+
+
+
+                ]
+            }
+        });
+        // Add a layer showing the places.
+        map.addLayer({
+            'id': 'places',
+            'type': 'symbol',
+            'source': 'places',
+            'layout': {
+                'icon-image': '{icon}-15',
+                'icon-allow-overlap': true
+            },'filter': ['==', '$type', 'Point']
+        });
+
+				map.addLayer({
+					'id': 'zones',
+					'type': 'fill',
+					'source': 'places',
+					'layout': {},
+					'paint': {
+					'fill-color': '#F0AF1F',
+					'fill-opacity': 0.6
+					},
+					'filter': ['==', '$type', 'Polygon']
+					});
+
+					// When a click event occurs for a polygon, open a popup with details
+	map.on('click', function (e) {
+	    var pointFeatures = map.queryRenderedFeatures(e.point, { layers: ['places'] });
+
+	    if (pointFeatures.length > 0) {
+	        var feature = pointFeatures[0];
+	        // Populate the popup and set its coordinates
+	        var popup = new mapboxgl.Popup()
+	            .setLngLat(feature.geometry.coordinates)
+	            .setHTML(feature.properties.description + feature.properties.image)
+	            .addTo(map);
+	        return; // don't display any more pop ups
+	    }
+
+	    var polygonFeatures = map.queryRenderedFeatures(e.point, { layers: ['zones'] });
+
+	    if (!polygonFeatures.length) {
+	        return;
+	    }
+
+	    var feature = polygonFeatures [0];
+
+	    // Populate the popup and set its coordinates
+	    var popup = new mapboxgl.Popup()
+	        .setLngLat(map.unproject(e.point))
+	        .setHTML(feature.properties.description + feature.properties.image)
+	        .addTo(map);
+	});
+	// Change the cursor to a pointer when the mouse is over the places layer.
+	        map.on('mouseenter', 'places', function () {
+	            map.getCanvas().style.cursor = 'pointer';
+	        });
+
+	        // Change it back to a pointer when it leaves.
+	        map.on('mouseleave', 'places', function () {
+	            map.getCanvas().style.cursor = '';
+	        });
+
+					// Change the cursor to a pointer when the mouse is over the places layer.
+        map.on('mouseenter', 'zones', function () {
+            map.getCanvas().style.cursor = 'pointer';
+        });
+
+        // Change it back to a pointer when it leaves.
+        map.on('mouseleave', 'zones', function () {
+            map.getCanvas().style.cursor = '';
+        });
+
+
+
+				map.addControl(
+		new MapboxGeocoder({
+		accessToken: mapboxgl.accessToken,
+		mapboxgl: mapboxgl
+		})
+		);
+
+
+    });
+</script>
+
+</body>
+</html>
